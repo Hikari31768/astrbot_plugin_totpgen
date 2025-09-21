@@ -43,7 +43,7 @@ ys_text_list = [
     "又是美好的一天，从原神开始！"
 ]
 
-@register("genshinimpact", "ましろSaber", "一个原神启动插件", "1.1", "repo url")
+@register("astrbot_plugin_genshinimpact", "ましろSaber&Foolllll", "一个原神启动插件", "1.2", "https://github.com/Foolllll-J/astrbot_plugin_genshinimpact")
 class GenshinImpactPlugin(Star):
     def __init__(self, context: Context):
         super().__init__(context)
@@ -67,7 +67,7 @@ class GenshinImpactPlugin(Star):
         logger.debug("Timestamp: %s", msg_obj.timestamp)
         logger.debug("============================")
 
-        if "原神" in text:
+        if "原神" in text and not event.is_at_or_wake_command:
             # 随机抽取一条圣经
             selected_text = random.choice(ys_text_list)
             yield event.plain_result(selected_text)
