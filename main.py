@@ -59,8 +59,7 @@ class GenshinImpactPlugin(Star):
         """
         group_id_str = event.get_group_id()
         if group_id_str:  # 如果是群聊
-            group_id = int(group_id_str)
-            if self.group_whitelist and group_id not in self.group_whitelist:
+            if self.group_whitelist and group_id_str not in self.group_whitelist:
                 return
         # 如果是私聊，则不检查白名单
 
