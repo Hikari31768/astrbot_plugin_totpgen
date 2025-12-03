@@ -10,10 +10,10 @@ import pyotp
 
 logger = logging.getLogger(__name__)
 
-totp_secret_list = {
-    'gpt': '',
-    'sora': ''
-}
+message_template = """
+## 验证码：_totp_str_
+哇啊，旅行者，你突然要验证码干嘛啦！是不是在偷偷搞什么神秘任务？不过派蒙我可是很厉害的，这就给你生成哦~ （翻找口袋中）噔噔！验证码是_totp_str_！记得用的时候要小心，别被坏人骗了啦！✨
+"""
 
 @register("astrbot_plugin_totp", "Hikarin", "一个TOTP生成插件", "1.0", "https://github.com/Hikari31768/astrbot_plugin_totpgen")
 class TOTPGeneratorPlugin(Star):
@@ -26,9 +26,6 @@ class TOTPGeneratorPlugin(Star):
 
     @event_message_type(EventMessageType.ALL)
     async def on_message(self, event: AstrMessageEvent) -> MessageEventResult:
-        """
-        当消息中包含“原神”时随机发送一条圣经。
-        """
         group_id_str = event.get_group_id()
         if group_id_str:  # 如果是群聊
             if self.group_whitelist and group_id_str not in self.group_whitelist:
@@ -53,5 +50,6 @@ class TOTPGeneratorPlugin(Star):
             if "验证码" in text:
                 if "gpt" in text.lower() or "openai" in text.lower():
                     otp = pyotp.TOTP(self.gpt_secret).now()
+                    message = message_template.replace("_totp_str_", otp)
                     yield event.plain_result(otp)
 
