@@ -51,5 +51,5 @@ class TOTPGeneratorPlugin(Star):
                 if "gpt" in text.lower() or "openai" in text.lower():
                     otp = pyotp.TOTP(self.gpt_secret).now()
                     message = message_template.replace("_totp_str_", otp)
-                    yield event.plain_result(otp)
+                    yield event.plain_result(message)
 
