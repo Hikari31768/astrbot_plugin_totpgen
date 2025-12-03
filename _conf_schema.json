@@ -5,4 +5,8 @@
         "type": "list",
         "default": []
     }
+    "gpt_secret": {
+        "description": "GPT密钥",
+        "type": "string"
+    }
 }
