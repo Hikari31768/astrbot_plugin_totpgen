@@ -22,6 +22,7 @@ class TOTPGeneratorPlugin(Star):
         self.config = config if config else {}
         self.group_whitelist: List[int] = self.config.get("group_whitelist", [])
         self.group_whitelist = [int(gid) for gid in self.group_whitelist]
+        self.gpt_secret = self.config.get("gpt_secret", "")
 
     @event_message_type(EventMessageType.ALL)
     async def on_message(self, event: AstrMessageEvent) -> MessageEventResult:
@@ -51,6 +52,6 @@ class TOTPGeneratorPlugin(Star):
         if event.is_at_or_wake_command:
             if "验证码" in text:
                 if "gpt" in text.lower() or "openai" in text.lower():
-                    otp = pyotp.TOTP(totp_secret_list["gpt"]).now()
+                    otp = pyotp.TOTP(self.gpt_secret).now()
                     yield event.plain_result(otp)
 
